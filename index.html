@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modern Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <section class="calculator-card">
+        <header class="card-header">
+          <p class="eyebrow">Python Project</p>
+          <h1>Modern Calculator</h1>
+          <p class="subtext">A clean, responsive calculator interface for your Python app.</p>
+        </header>
+
+        <div class="display-box" aria-live="polite">
+          <div class="display-history" id="history">0</div>
+          <div class="display-main" id="display">0</div>
+        </div>
+
+        <div class="button-grid">
+          <button class="btn btn-ac" data-action="clear">AC</button>
+          <button class="btn btn-operator" data-action="delete">⌫</button>
+          <button class="btn btn-operator" data-value="%">%</button>
+          <button class="btn btn-operator" data-value="/">÷</button>
+
+          <button class="btn" data-value="7">7</button>
+          <button class="btn" data-value="8">8</button>
+          <button class="btn" data-value="9">9</button>
+          <button class="btn btn-operator" data-value="*">×</button>
+
+          <button class="btn" data-value="4">4</button>
+          <button class="btn" data-value="5">5</button>
+          <button class="btn" data-value="6">6</button>
+          <button class="btn btn-operator" data-value="-">−</button>
+
+          <button class="btn" data-value="1">1</button>
+          <button class="btn" data-value="2">2</button>
+          <button class="btn" data-value="3">3</button>
+          <button class="btn btn-operator" data-value="+">+</button>
+
+          <button class="btn btn-zero" data-value="0">0</button>
+          <button class="btn" data-value=".">.</button>
+          <button class="btn btn-equals" data-action="equals">=</button>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const display = document.getElementById('display');
+      const history = document.getElementById('history');
+      let expression = '';
+
+      function updateDisplay() {
+        display.textContent = expression || '0';
+      }
+
+      function clearAll() {
+        expression = '';
+        history.textContent = '0';
+        updateDisplay();
+      }
+
+      function deleteLast() {
+        expression = expression.slice(0, -1);
+        updateDisplay();
+      }
+
+      function calculate() {
+        try {
+          const result = Function('return (' + expression.replace(/%/g, '/100') + ')')();
+          history.textContent = expression || '0';
+          expression = String(result);
+          updateDisplay();
+        } catch (error) {
+          history.textContent = 'Error';
+          expression = '';
+          updateDisplay();
+        }
+      }
+
+      document.querySelectorAll('button').forEach((button) => {
+        button.addEventListener('click', () => {
+          const value = button.getAttribute('data-value');
+          const action = button.getAttribute('data-action');
+
+          if (action === 'clear') {
+            clearAll();
+            return;
+          }
+
+          if (action === 'delete') {
+            deleteLast();
+            return;
+          }
+
+          if (action === 'equals') {
+            calculate();
+            return;
+          }
+
+          if (value !== null) {
+            expression += value;
+            updateDisplay();
+          }
+        });
+      });
+
+      updateDisplay();
+    </script>
+  </body>
+</html>
