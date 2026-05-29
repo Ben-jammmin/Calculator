@@ -19,9 +19,11 @@ def divide(a, b):
     return a / b
 
 
-def main():
-    print("Simple Python Calculator")
-    print("Operations: +, -, *, /")
+print("Simple Python Calculator")
+print("Operations: +, -, *, /")
+
+while True:
+    
 
     try:
         first = float(input("Enter first number: "))
@@ -43,6 +45,9 @@ def main():
     except ValueError as exc:
         print(f"Error: {exc}")
 
-
-if __name__ == "__main__":
-    main()
+    print("Would you like to perform another calculation? (yes/no)")
+    answer = input().strip().lower()
+    if answer == "yes":
+        continue
+    else: print("Goodbye!"); break   
+    
