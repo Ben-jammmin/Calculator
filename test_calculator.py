@@ -20,6 +20,9 @@ class CalculatorTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             divide(5, 0)
 
+    def test_add_decimals(self):
+        self.assertEqual(add(2.5, 3.6), 6.1)      
+
 
 if __name__ == "__main__":
     unittest.main()
